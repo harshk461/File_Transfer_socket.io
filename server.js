@@ -8,6 +8,10 @@ const io = require('socket.io')(server);
 
 app.use(express.static(path.join(__dirname + "/public")))
 
+app.get('/receive', (req, res) => {
+    res.sendFile(__dirname + "/public/receiver.html");
+});
+
 io.on("connection", function (socket) {
     socket.on('sender-join', function (data) {
         socket.join(data.uid);
@@ -28,7 +32,7 @@ io.on("connection", function (socket) {
     });
 
     socket.on("file-raw", function (data) {
-        socket.in(data.uid).emit('fs-share', data.buffer);
+        socket.in(data.uid).emit('fs-share', data.bufferf);
     });
 
 });
